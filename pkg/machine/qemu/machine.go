@@ -663,7 +663,7 @@ func (v *MachineVM) Start(name string, _ machine.StartOptions) error {
 		// create mountpoint directory if it doesn't exist
 		// because / is immutable, we have to monkey around with permissions
 		// if we dont mount in /home or /mnt
-		args := []string{"-q", "--"}
+		args := []string{"-v", "--"}
 		if !strings.HasPrefix(mount.Target, "/home") && !strings.HasPrefix(mount.Target, "/mnt") {
 			args = append(args, "sudo", "chattr", "-i", "/", ";")
 		}
@@ -683,7 +683,7 @@ func (v *MachineVM) Start(name string, _ machine.StartOptions) error {
 			if mount.ReadOnly {
 				mountOptions = append(mountOptions, []string{"-o", "ro"}...)
 			}
-			err = v.SSH(name, machine.SSHOptions{Args: append([]string{"-q", "--", "sudo", "mount"}, mountOptions...)})
+			err = v.SSH(name, machine.SSHOptions{Args: append([]string{"-v", "--", "sudo", "mount"}, mountOptions...)})
 			if err != nil {
 				return err
 			}
